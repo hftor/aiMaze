@@ -102,7 +102,34 @@ def depthFirstSearchHelper(path, discovered, v, problem):
                     path.insert(0, wDirection)
 
 def breadthFirstSearch(problem):
-    util.raiseNotDefined()
+    q = util.Queue() # Stores all visited nodes that have not been expanded
+    parent = { }     # Stores parents of all visited nodes
+
+    startState = problem.getStartState(), None, 0
+    q.push(startState)
+
+    while not q.isEmpty():
+        current = q.pop()
+
+        # If we have reached the goal state we track the parent dict from goal to start
+        if problem.isGoalState(current[0]):
+            path = []
+            path.insert(0, current[1])
+
+            p = parent[current[0]]
+            while p[1] is not None:
+                path.insert(0, p[1])
+                p = parent[p[0]]
+
+            return path
+
+        # Expand all adjacent nodes of current
+        for n in problem.getSuccessors(current[0]):
+            # Only visit n if it is unvisited
+            if n[0] not in parent:
+                parent[n[0]] = current
+                q.push(n)
+
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
