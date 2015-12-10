@@ -133,60 +133,60 @@ def breadthFirstSearch(problem):
 
 
 def uniformCostSearch(problem):
-	"""Search the node of least total cost first."""
-	"*** YOUR CODE HERE ***"
+    """Search the node of least total cost first."""
+    "*** YOUR CODE HERE ***"
 
-	queue = util.PriorityQueue()
-	path = []
-	visited = []
+    queue = util.PriorityQueue()
+    path = []
+    visited = []
 
-	# startState:
-	#((position), Direction, Cost)
-	#(  (1,2)   ,   None   ,  0  )
-	startState = problem.getStartState(), None, 0
+    # startState:
+    #((position), Direction, Cost)
+    #(  (1,2)   ,   None   ,  0  )
+    startState = problem.getStartState(), None, 0
 
 
-	# startStateTupe:
-	#(((position), Direction, Cost), Parent)
-	#((  (1,2)   ,   None   ,  0  ), (None))
-	startStateTuple = startState, None
+    # startStateTupe:
+    #(((position), Direction, Cost), Parent)
+    #((  (1,2)   ,   None   ,  0  ), (None))
+    startStateTuple = startState, None
 
-	queue.push(startStateTuple, 0)
+    queue.push(startStateTuple, 0)
 
-	while(not queue.isEmpty()):
-		currentNode = queue.pop()
+    while(not queue.isEmpty()):
+        currentNode = queue.pop()
 
-		currentNodePosition = currentNode[0][0]
-		currentNodeCost     = currentNode[0][2]
+        currentNodePosition = currentNode[0][0]
+        currentNodeCost     = currentNode[0][2]
 
-		# check if the new node is a goal state
-		if(problem.isGoalState(currentNodePosition)):
-			queue.push(currentNode, 0)
-			goalNode = currentNode
-			break
+        # check if the new node is a goal state
+        if(problem.isGoalState(currentNodePosition)):
+            queue.push(currentNode, 0)
+            goalNode = currentNode
+            break
 
-		# mark the currentNode as visited
-		visited.append(currentNodePosition)
+        # mark the currentNode as visited
+        visited.append(currentNodePosition)
 
-		# go through all nodes of currentNode successors
-		for n in problem.getSuccessors(currentNodePosition):
-			possition = n[0]
-			cost      = n[2]
+        # go through all nodes of currentNode successors
+        for n in problem.getSuccessors(currentNodePosition):
+            possition = n[0]
+            cost      = n[2]
 
-			# Create a new tuple to keep track of the parent node
-			newTuple = n, currentNode
+            # Create a new tuple to keep track of the parent node
+            newTuple = n, currentNode
 
-			# If that node has not been visited, we will expand
-			if(possition not in visited):
-				queue.push(newTuple, currentNodeCost + cost)
+            # If that node has not been visited, we will expand
+            if(possition not in visited):
+                queue.push(newTuple, currentNodeCost + cost)
 
-	# Reconstruct the path
-	path.append(goalNode[1][0][1])
-	while goalNode[1][0][1] != None:
-		path.insert(0, goalNode[1][0][1])
-		goalNode = goalNode[1]
+    # Reconstruct the path
+    path.append(goalNode[1][0][1])
+    while goalNode[1][0][1] != None:
+        path.insert(0, goalNode[1][0][1])
+        goalNode = goalNode[1]
 
-	return path
+    return path
 
 
 def nullHeuristic(state, problem=None):
@@ -197,59 +197,59 @@ def nullHeuristic(state, problem=None):
     return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
-	"""Search the node that has the lowest combined cost and heuristic first."""
-	"*** YOUR CODE HERE ***"
-	queue = util.PriorityQueue()
-	path = []
-	visited = []
+    """Search the node that has the lowest combined cost and heuristic first."""
+    "*** YOUR CODE HERE ***"
+    queue = util.PriorityQueue()
+    path = []
+    visited = []
 
-	# startState:
-	#((position), Direction, Cost)
-	#(  (1,2)   ,   None   ,  0  )
-	startState = problem.getStartState(), None, 0
+    # startState:
+    #((position), Direction, Cost)
+    #(  (1,2)   ,   None   ,  0  )
+    startState = problem.getStartState(), None, 0
 
 
-	# startStateTupe:
-	#(((position), Direction, Cost), Parent)
-	#((  (1,2)   ,   None   ,  0  ), (None))
-	startStateTuple = startState, None
+    # startStateTupe:
+    #(((position), Direction, Cost), Parent)
+    #((  (1,2)   ,   None   ,  0  ), (None))
+    startStateTuple = startState, None
 
-	queue.push(startStateTuple, heuristic(startState[0], problem))
+    queue.push(startStateTuple, heuristic(startState[0], problem))
 
-	while(not queue.isEmpty()):
-		currentNode = queue.pop()
+    while(not queue.isEmpty()):
+        currentNode = queue.pop()
 
-		currentNodePosition = currentNode[0][0]
-		currentNodeCost     = currentNode[0][2]
+        currentNodePosition = currentNode[0][0]
+        currentNodeCost     = currentNode[0][2]
 
-		# check if the new node is a goal state
-		if(problem.isGoalState(currentNodePosition)):
-			queue.push(currentNode, 0)
-			goalNode = currentNode
-			break
+        # check if the new node is a goal state
+        if(problem.isGoalState(currentNodePosition)):
+            queue.push(currentNode, 0)
+            goalNode = currentNode
+            break
 
-		# mark the currentNode as visited
-		visited.append(currentNodePosition)
+        # mark the currentNode as visited
+        visited.append(currentNodePosition)
 
-		# go through all nodes of currentNode successors
-		for n in problem.getSuccessors(currentNodePosition):
-			possition = n[0]
-			cost      = n[2]
+        # go through all nodes of currentNode successors
+        for n in problem.getSuccessors(currentNodePosition):
+            possition = n[0]
+            cost      = n[2]
 
-			# Create a new tuple to keep track of the parent node
-			newTuple = n, currentNode
+            # Create a new tuple to keep track of the parent node
+            newTuple = n, currentNode
 
-			# If that node has not been visited, we will expand
-			if(possition not in visited):
-				queue.push(newTuple, currentNodeCost + cost + heuristic(possition, problem))
+            # If that node has not been visited, we will expand
+            if(possition not in visited):
+                queue.push(newTuple, currentNodeCost + cost + heuristic(possition, problem))
 
-	# Reconstruct the path
-	path.append(goalNode[1][0][1])
-	while goalNode[1][0][1] != None:
-		path.insert(0, goalNode[1][0][1])
-		goalNode = goalNode[1]
+    # Reconstruct the path
+    path.append(goalNode[1][0][1])
+    while goalNode[1][0][1] != None:
+        path.insert(0, goalNode[1][0][1])
+        goalNode = goalNode[1]
 
-	return path
+    return path
 
 
 # Abbreviations
