@@ -89,7 +89,7 @@ def depthFirstSearchHelper(path, discovered, v, problem):
     discovered.append(vPoint)
 
     if problem.isGoalState(vPoint):
-        path.append(vDirection)
+        return True
 
     for w in problem.getSuccessors(vPoint):
         wPoint = w[0]
@@ -97,16 +97,17 @@ def depthFirstSearchHelper(path, discovered, v, problem):
 
         if wPoint not in discovered:
             if not path:
-                depthFirstSearchHelper(path, discovered, w, problem)
-                if path:
+                goalFound = depthFirstSearchHelper(path, discovered, w, problem)
+                if goalFound:
                     path.insert(0, wDirection)
+                    return True
 
 def breadthFirstSearch(problem):
     q = util.Queue() # Stores all visited nodes that have not been expanded
-    parent = { }     # Stores parents of all visited nodes
 
     startState = problem.getStartState(), None, 0
     q.push(startState)
+    parent = { startState[0]: None } # Stores parents of all visited nodes
 
     while not q.isEmpty():
         current = q.pop()
@@ -153,8 +154,10 @@ def uniformCostSearch(problem):
 	# Push the start state on the queue
 	queue.push(startStateTuple, 0)
 
+
 	while(not queue.isEmpty()):
 		currentNode = queue.pop()
+
 
 		currentNodePosition = currentNode[0][0]
 		currentNodeTotalCost     = currentNode[2]
@@ -201,59 +204,59 @@ def nullHeuristic(state, problem=None):
     return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
-	"""Search the node that has the lowest combined cost and heuristic first."""
-	"*** YOUR CODE HERE ***"
-	queue = util.PriorityQueue()
-	path = []
-	visited = []
+    """Search the node that has the lowest combined cost and heuristic first."""
+    "*** YOUR CODE HERE ***"
+    queue = util.PriorityQueue()
+    path = []
+    visited = []
 
-	# startState:
-	#((position), Direction, Cost)
-	#(  (1,2)   ,   None   ,  0  )
-	startState = problem.getStartState(), None, 0
+    # startState:
+    #((position), Direction, Cost)
+    #(  (1,2)   ,   None   ,  0  )
+    startState = problem.getStartState(), None, 0
 
 
-	# startStateTupe:
-	#(((position), Direction, Cost), Parent)
-	#((  (1,2)   ,   None   ,  0  ), (None))
-	startStateTuple = startState, None
+    # startStateTupe:
+    #(((position), Direction, Cost), Parent)
+    #((  (1,2)   ,   None   ,  0  ), (None))
+    startStateTuple = startState, None
 
-	queue.push(startStateTuple, heuristic(startState[0], problem))
+    queue.push(startStateTuple, heuristic(startState[0], problem))
 
-	while(not queue.isEmpty()):
-		currentNode = queue.pop()
+    while(not queue.isEmpty()):
+        currentNode = queue.pop()
 
-		currentNodePosition = currentNode[0][0]
-		currentNodeCost     = currentNode[0][2]
+        currentNodePosition = currentNode[0][0]
+        currentNodeCost     = currentNode[0][2]
 
-		# check if the new node is a goal state
-		if(problem.isGoalState(currentNodePosition)):
-			queue.push(currentNode, 0)
-			goalNode = currentNode
-			break
+        # check if the new node is a goal state
+        if(problem.isGoalState(currentNodePosition)):
+            queue.push(currentNode, 0)
+            goalNode = currentNode
+            break
 
-		# mark the currentNode as visited
-		visited.append(currentNodePosition)
+        # mark the currentNode as visited
+        visited.append(currentNodePosition)
 
-		# go through all nodes of currentNode successors
-		for n in problem.getSuccessors(currentNodePosition):
-			possition = n[0]
-			cost      = n[2]
+        # go through all nodes of currentNode successors
+        for n in problem.getSuccessors(currentNodePosition):
+            possition = n[0]
+            cost      = n[2]
 
-			# Create a new tuple to keep track of the parent node
-			newTuple = n, currentNode
+            # Create a new tuple to keep track of the parent node
+            newTuple = n, currentNode
 
-			# If that node has not been visited, we will expand
-			if(possition not in visited):
-				queue.push(newTuple, currentNodeCost + cost + heuristic(possition, problem))
+            # If that node has not been visited, we will expand
+            if(possition not in visited):
+                queue.push(newTuple, currentNodeCost + cost + heuristic(possition, problem))
 
-	# Reconstruct the path
-	path.append(goalNode[1][0][1])
-	while goalNode[1][0][1] != None:
-		path.insert(0, goalNode[1][0][1])
-		goalNode = goalNode[1]
+    # Reconstruct the path
+    path.append(goalNode[1][0][1])
+    while goalNode[1][0][1] != None:
+        path.insert(0, goalNode[1][0][1])
+        goalNode = goalNode[1]
 
-	return path
+    return path
 
 
 # Abbreviations
