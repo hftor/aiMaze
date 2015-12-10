@@ -89,7 +89,7 @@ def depthFirstSearchHelper(path, discovered, v, problem):
     discovered.append(vPoint)
 
     if problem.isGoalState(vPoint):
-        path.append(vDirection)
+        return True
 
     for w in problem.getSuccessors(vPoint):
         wPoint = w[0]
@@ -97,9 +97,10 @@ def depthFirstSearchHelper(path, discovered, v, problem):
 
         if wPoint not in discovered:
             if not path:
-                depthFirstSearchHelper(path, discovered, w, problem)
-                if path:
+                goalFound = depthFirstSearchHelper(path, discovered, w, problem)
+                if goalFound:
                     path.insert(0, wDirection)
+                    return True
 
 def breadthFirstSearch(problem):
     q = util.Queue() # Stores all visited nodes that have not been expanded
