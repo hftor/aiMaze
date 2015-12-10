@@ -204,59 +204,66 @@ def nullHeuristic(state, problem=None):
     return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
-    """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    queue = util.PriorityQueue()
-    path = []
-    visited = []
+	"""Search the node that has the lowest combined cost and heuristic first."""
+	"*** YOUR CODE HERE ***"
+	queue = util.PriorityQueue()
+	path = []
+	visited = {problem.getStartState(): 0}
 
-    # startState:
-    #((position), Direction, Cost)
-    #(  (1,2)   ,   None   ,  0  )
-    startState = problem.getStartState(), None, 0
+	# startState:
+	#((position), Direction, Cost)
+	#(  (1,2)   ,   None   ,  0  )
+	startState = problem.getStartState(), None, 0
 
 
-    # startStateTupe:
-    #(((position), Direction, Cost), Parent)
-    #((  (1,2)   ,   None   ,  0  ), (None))
-    startStateTuple = startState, None
+	# startStateTupe:
+	#(((position), Direction, Cost), Parent, totalCost)
+	#((  (1,2)   ,   None   ,  0  ), (None), 0)
+	startStateTuple = startState, None, 0
 
-    queue.push(startStateTuple, heuristic(startState[0], problem))
+	# Push the start state on the queue
+	queue.push(startStateTuple, 0)
 
-    while(not queue.isEmpty()):
-        currentNode = queue.pop()
 
-        currentNodePosition = currentNode[0][0]
-        currentNodeCost     = currentNode[0][2]
+	while(not queue.isEmpty()):
+		currentNode = queue.pop()
 
-        # check if the new node is a goal state
-        if(problem.isGoalState(currentNodePosition)):
-            queue.push(currentNode, 0)
-            goalNode = currentNode
-            break
 
-        # mark the currentNode as visited
-        visited.append(currentNodePosition)
+		currentNodePosition = currentNode[0][0]
+		currentNodeTotalCost     = currentNode[2]
 
-        # go through all nodes of currentNode successors
-        for n in problem.getSuccessors(currentNodePosition):
-            possition = n[0]
-            cost      = n[2]
+		# check if the new node is a goal state
+		if(problem.isGoalState(currentNodePosition)):
+			goalNode = currentNode
+			break
 
-            # Create a new tuple to keep track of the parent node
-            newTuple = n, currentNode
+		# go through all nodes of currentNode successors
+		for n in problem.getSuccessors(currentNodePosition):
+			position = n[0]
+			cost      = n[2]
 
-            # If that node has not been visited, we will expand
-            if(possition not in visited):
-                queue.push(newTuple, currentNodeCost + cost + heuristic(possition, problem))
+			totalCost = currentNodeTotalCost + cost
 
-    # Reconstruct the path
-    path.append(goalNode[1][0][1])
-    while goalNode[1][0][1] != None:
-        path.insert(0, goalNode[1][0][1])
-        goalNode = goalNode[1]
+			# If that node has not been visited, we will expand
+			if(position not in visited or visited[position] > totalCost):
 
-    return path
+				
+				# mark the node as visited
+				visited[position] = totalCost
+
+				# Create a new tuple to keep track of the parent node and totalCost
+				newTuple = n, currentNode, totalCost
+
+				queue.push(newTuple, totalCost + heuristic(position, problem))
+
+	# reconstruct the path
+	path.append(goalNode[0][1])
+
+	while goalNode[1][0][1] != None:
+		path.insert(0, goalNode[1][0][1])
+		goalNode = goalNode[1]
+
+	return path
 
 
 # Abbreviations
