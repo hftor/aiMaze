@@ -104,10 +104,10 @@ def depthFirstSearchHelper(path, discovered, v, problem):
 
 def breadthFirstSearch(problem):
     q = util.Queue() # Stores all visited nodes that have not been expanded
-    parent = { }     # Stores parents of all visited nodes
 
     startState = problem.getStartState(), None, 0
     q.push(startState)
+    parent = { startState[0]: None } # Stores parents of all visited nodes
 
     while not q.isEmpty():
         current = q.pop()
