@@ -137,7 +137,7 @@ def uniformCostSearch(problem):
 
 	queue = util.PriorityQueue()
 	path = []
-	visited = []
+	visited = {problem.getStartState(): 0}
 
 	# startState:
 	#((position), Direction, Cost)
@@ -146,41 +146,46 @@ def uniformCostSearch(problem):
 
 
 	# startStateTupe:
-	#(((position), Direction, Cost), Parent)
-	#((  (1,2)   ,   None   ,  0  ), (None))
-	startStateTuple = startState, None
+	#(((position), Direction, Cost), Parent, totalCost)
+	#((  (1,2)   ,   None   ,  0  ), (None), 0)
+	startStateTuple = startState, None, 0
 
+	# Push the start state on the queue
 	queue.push(startStateTuple, 0)
 
 	while(not queue.isEmpty()):
 		currentNode = queue.pop()
 
 		currentNodePosition = currentNode[0][0]
-		currentNodeCost     = currentNode[0][2]
+		currentNodeTotalCost     = currentNode[2]
 
 		# check if the new node is a goal state
 		if(problem.isGoalState(currentNodePosition)):
-			queue.push(currentNode, 0)
 			goalNode = currentNode
 			break
 
-		# mark the currentNode as visited
-		visited.append(currentNodePosition)
-
 		# go through all nodes of currentNode successors
 		for n in problem.getSuccessors(currentNodePosition):
-			possition = n[0]
+			position = n[0]
 			cost      = n[2]
 
-			# Create a new tuple to keep track of the parent node
-			newTuple = n, currentNode
+			totalCost = currentNodeTotalCost + cost
 
 			# If that node has not been visited, we will expand
-			if(possition not in visited):
-				queue.push(newTuple, currentNodeCost + cost)
+			if(position not in visited or visited[position] > totalCost):
 
-	# Reconstruct the path
-	path.append(goalNode[1][0][1])
+				
+				# mark the node as visited
+				visited[position] = totalCost
+
+				# Create a new tuple to keep track of the parent node and totalCost
+				newTuple = n, currentNode, totalCost
+
+				queue.push(newTuple, totalCost)
+
+	# reconstruct the path
+	path.append(goalNode[0][1])
+
 	while goalNode[1][0][1] != None:
 		path.insert(0, goalNode[1][0][1])
 		goalNode = goalNode[1]
