@@ -251,7 +251,7 @@ class StayWestSearchAgent(SearchAgent):
         self.searchType = lambda state: PositionSearchProblem(state, costFn)
 
 def manhattanHeuristic(position, problem, info={}):
-    "The Manhattan distance heuristic for a PositionSearchProblem"
+    "The manhattan distance heuristic for a PositionSearchProblem"
     xy1 = position
     xy2 = problem.goal
     return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
@@ -352,22 +352,30 @@ class CornersProblem(search.SearchProblem):
 
 def cornersHeuristic(state, problem):
     """
-    A heuristic for the CornersProblem that you defined.
-
-      state:   The current search state
-               (a data structure you chose in your search problem)
-
-      problem: The CornersProblem instance for this layout.
-
-    This function should always return a number that is a lower bound on the
-    shortest path from the state to a goal of the problem; i.e.  it should be
-    admissible (as well as consistent).
+    Calculates the distance from pacman to the nearest unvisited corner
+    and from that corner to the nearest unvisited corner until all
+    unvisited corners have been calculated in to the distance.
+    It uses manhattanDistance to calculate distance from one point
+    to another.
     """
-    corners = problem.corners # These are the corner coordinates
-    walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
+    point, unvisitedCorners = state
+    dist = 0
+    while unvisitedCorners:
+        # Calculate dist for point to corner or corner to corner
+        distance = {}
+        for c in unvisitedCorners:
+            distance[c] = util.manhattanDistance(point, c)
 
-    "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+        # Returns a tuple with the minimum value and it's corner
+        minDist, corner = min(zip(distance.values(), distance.keys()))
+
+        dist += minDist
+        point = corner
+
+        # Removes the corner we just used from the unvisitedCorners tuple
+        unvisitedCorners = tuple(a for a in unvisitedCorners if a != corner)
+
+    return dist
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
