@@ -331,7 +331,7 @@ class CornersProblem(search.SearchProblem):
 
             if not hitsWall:
                 nextState = ((nextx, nexty), cornersRemaning)
-                successors.append( (nextState, action, 1) )
+                successors.append((nextState, action, 1))
 
         self._expanded += 1
         return successors
@@ -467,8 +467,23 @@ def foodHeuristic(state, problem):
     Subsequent calls to this heuristic can access
     problem.heuristicInfo['wallCount']
     """
-    position, foodGrid = state
-    "*** YOUR CODE HERE ***"
+    point, foodGrid = state
+    foodGridList = foodGrid.asList()
+
+    distance = {}
+    #if 'foodCount' in problem.heuristicInfo and problem.heuristicInfo['foodCount'] == len(foodGridList):
+    #    distance = problem.heuristicInfo['distance']
+    #else:
+    for x in foodGridList:
+        distance[x] = util.manhattanDistance(point, x)
+        #distance[x] = mazeDistance(point, x, problem.startingGameState)
+        #problem.heuristicInfo['foodCount'] = len(foodGridList)
+        #problem.heuristicInfo['distance'] = distance
+
+    if distance:
+        minDist, food = min(zip(distance.values(), distance.keys()))
+        return minDist
+
     return 0
 
 class ClosestDotSearchAgent(SearchAgent):
@@ -499,8 +514,7 @@ class ClosestDotSearchAgent(SearchAgent):
         walls = gameState.getWalls()
         problem = AnyFoodSearchProblem(gameState)
 
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return search.bfs(problem)
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -533,10 +547,8 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         The state is Pacman's position. Fill this in with a goal test that will
         complete the problem definition.
         """
-        x,y = state
-
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        if state in self.food.asList():
+            return True
 
 def mazeDistance(point1, point2, gameState):
     """
