@@ -34,6 +34,11 @@
         (HAS_FREE_STUFF ?L1 - Location)
         (HAS_WATER ?L1 - Location)
         (TEST ?C1 - Character)
+        (NEW_HAIRCUT ?C1 - Character)
+        (CUTS_HAIR ?L1 - Location)
+        (HAS_GOOD_ADVICE ?C1 - Character)
+        (HAS_JOB ?C1 - Character)
+        (IS_HIRING ?L1 - Location)
     )
     (:action MOVE
         :parameters (
@@ -173,6 +178,7 @@
         )
         :effect (and
             (LOVE ?C1 ?C2)
+            (not (FLEX_MUSCLES ?C2))
         )
     )
     (:action GET_MARRIED
@@ -377,6 +383,52 @@
         )
         :effect (and
             (not (HUNGRY ?C1))
+        )
+    )
+    (:action GET_HAIRCUT
+        :parameters (
+            ?C1 - Character
+            ?L1 - Location
+        )
+        :precondition (and
+            (IS_AT ?C1 ?L1)
+            (CUTS_HAIR ?L1)
+            (not (NEW_HAIRCUT ?C1))
+        )
+        :effect (and
+            (NEW_HAIRCUT ?C1)
+        )
+    )
+    (:action GET_GOOD_ADVICE
+        :parameters (
+            ?C1 - Character
+            ?C2 - Character
+            ?L1 - Location
+        )
+        :precondition (and
+            (not (= ?C1 ?C2))
+            (IS_AT ?C1 ?L1)
+            (IS_AT ?C2 ?L1)
+            (HAS_GOOD_ADVICE ?C2)
+        )
+        :effect (and
+            (HAS_GOOD_ADVICE ?C1)
+        )
+    )
+    (:action JOB_INTERVIEW
+        :parameters (
+            ?C1 - Character
+            ?L1 - Location
+        )
+        :precondition (and
+            (IS_AT ?C1 ?L1)
+            (NEW_HAIRCUT ?C1)
+            (HAS_GOOD_ADVICE ?C1)
+            (IS_HIRING ?L1)
+        )
+        :effect (and
+            (HAS_JOB ?C1)
+            (not (IS_HIRING ?L1))
         )
     )
 )

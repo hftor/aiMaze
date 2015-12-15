@@ -19,6 +19,7 @@
         STORE - Location
         HOTDOG_STAND - Location
         DUMPSTER - Location
+        BARBERSHOP - Location
     )
     (:init
         (IS_AT MAN FOUNTAIN)
@@ -43,18 +44,24 @@
         (LIGHTABLE CANDLE)
         (HAS_FREE_STUFF DUMPSTER)
         (HAS_WATER FOUNTAIN)
+        (CUTS_HAIR BARBERSHOP)
+        (IS_HIRING STORE)
 
         (HUNGRY GUNNI)
-        (HUNGRY DAVID)
+        (HUNGRY MAN)
         (HAPPY GUNNI)
         (HAPPY DAVID)
         (CLUMSY GUNNI)
         (CLUMSY GIRL)
-        (POOR DAVID)
+        (POOR MAN)
         (RICH GUNNI)
+        (RICH DAVID)
+        (HAS_GOOD_ADVICE GUNNI)
     )
     (:goal (and
-        ;(not (HUNGRY DAVID))
+        (HAS_JOB DAVID)
+
+        ;(not (HUNGRY MAN))
 
         ;(HERO BOY)
 
