@@ -2,44 +2,67 @@
     (:domain domain1)
     (:requirements :strips :typing :equality)
     (:objects
-            PRINCESS - Character
-            FROG - Character
-            KING - Character
-            FROG_SERVANT - Character
-            MAN - Character
-            WOMAN - Character
-            WITCH - Character
-            RAPUNZEL - Character
-            KING_SON - Character
-            GOLD_BALL - Article
-            TLC - Article
-            RADISH - Article
-            PALACE - Location
-            GARDEN - Location
-            FOUNTAIN - Location
-            ROAD - Location
-            TOWER - Location
+        WAITRESS - Character
+        MAN - Character
+        WOMAN - Character
+        GUNNI - Character
+        DAVID - Character
+        GIRL - Character
+        BOY - Character
+        HOTDOG - Article
+        CANDLE - Article
+        BREAD - Article
+        DOOR - Device
+        HAMMER - Device
+        RESTAURANT - Location
+        FOUNTAIN - Location
+        STORE - Location
+        HOTDOG_STAND - Location
+        DUMPSTER - Location
     )
     (:init
-        (IS_AT PRINCESS PALACE)
-        (IS_AT FROG FOUNTAIN)
-        (IS_AT KING PALACE)
-        (IS_AT FROG_SERVANT TOWER)
-        (IS_AT MAN ROAD)
-        (IS_AT WOMAN GARDEN)
-        (IS_AT WITCH TOWER)
-        (IS_AT RAPUNZEL GARDEN)
-        (IS_AT KING_SON ROAD)
-        (HAS PRINCESS TLC)
-        (HAS PRINCESS GOLD_BALL)
-        (HAS WITCH RADISH)
-        (EDIBLE RADISH)
-        (HUNGRY WOMAN)
-      )
+        (IS_AT MAN FOUNTAIN)
+        (IS_AT WAITRESS RESTAURANT)
+        (IS_AT GUNNI RESTAURANT)
+        (IS_AT DAVID RESTAURANT)
+        (IS_AT DOOR RESTAURANT)
+        (IS_AT HAMMER STORE)
+        (IS_AT HOTDOG HOTDOG_STAND)
+        (IS_AT GIRL RESTAURANT)
+        (IS_AT BOY FOUNTAIN)
+        (HAS GIRL CANDLE)
+        (HAS WAITRESS BREAD)
+
+        (LOVE MAN WAITRESS)
+        (IS_TOOL HAMMER)
+        (BROKEN DOOR)
+        (MARKETPLACE STORE)
+        (FOOD_VENDOR HOTDOG_STAND)
+        (EDIBLE HOTDOG)
+        (EDIBLE BREAD)
+        (LIGHTABLE CANDLE)
+        (HAS_FREE_STUFF DUMPSTER)
+        (HAS_WATER FOUNTAIN)
+
+        (HUNGRY GUNNI)
+        (HUNGRY DAVID)
+        (HAPPY GUNNI)
+        (HAPPY DAVID)
+        (CLUMSY GUNNI)
+        (CLUMSY GIRL)
+        (POOR DAVID)
+        (RICH GUNNI)
+    )
     (:goal (and
-        (not (HAS WITCH RADISH))
-        (not (HAS MAN RADISH))
-        (HAS FROG RADISH)
+        ;(not (HUNGRY DAVID))
+
+        ;(HERO BOY)
+
+        ;(SAD GUNNI)
+        ;(SAD DAVID)
+
+        ;(MARRIED MAN WAITRESS)
+        ;(MARRIED WAITRESS MAN)
     )
-    )
+  )
 )
