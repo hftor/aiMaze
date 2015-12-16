@@ -21,13 +21,13 @@ In order for us to use conditional-effects we has to change the heuristics that 
 We changed the heuristics from landmark cut to ff
 
 We have 5 different goals:
-  #1: HAS_JOB DAVID
+  > HAS_JOB DAVID
   
-  #2: not (HUNGRY MAN)
+  > not (HUNGRY MAN)
   
-  #3: HERO BOY
+  > HERO BOY
   
-  #4: SAD GUNNI <br/> SAD DAVID
+  > SAD GUNNI <br/> SAD DAVID
       
-  #5: MARRIED MAN WAITRESS <br/> MARRIED WAITRESS MAN
+  > MARRIED MAN WAITRESS <br/> MARRIED WAITRESS MAN
       
