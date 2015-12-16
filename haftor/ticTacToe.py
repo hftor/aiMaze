@@ -1,7 +1,6 @@
 #!/bin/python
 import random
 
-
 class Node:
 
 	def __init__(self, gameState, i, j):
@@ -82,6 +81,8 @@ def setValue(player):
 	else:
 		return -1
 
+
+
 def isDraw(newWorld):
 	count = 0
 	for i in range(3):
@@ -89,6 +90,7 @@ def isDraw(newWorld):
 			if(newWorld[i][j] == "_"):
 				count += 1
 	return count == 0
+
 
 def nextPlayer(player):
 	if player == "X":
@@ -137,38 +139,29 @@ def nextMove(childrenNodes, player):
 		for c in childrenNodes:
 			if c.value > currentBest.value:
 				currentBest = c
-		print(currentBest.xCoordinate, currentBest.yCoordinate)
+		print currentBest.xCoordinate, currentBest.yCoordinate
 	else:
 		currentBest = childrenNodes[0]
 		for c in childrenNodes:
 			if c.value < currentBest.value:
 				currentBest = c
-		print(currentBest.xCoordinate, currentBest.yCoordinate)
+		print currentBest.xCoordinate, currentBest.yCoordinate
 
-def main():
-	player = input()
-	row1 = input()
-	row2 = input()
-	row3 = input()
+    
 
-	board = []
-	board.append(row1)
-	board.append(row2)
-	board.append(row3)
+#If player is X, I'm the first player.
+#If player is O, I'm the second player.
+player = raw_input()
 
-	node = Node(board, None, None)
+#Read the board now. The board is a 3x3 array filled with X, O or _.
+board = []
+for i in xrange(0, 3):
+    board.append(raw_input())
+
+node = Node(board, None, None)
 	
-	initializePossibleMoves(board, node, player)
-	for c in node.children:
-		c.value = getValueByDFS(c.state, nextPlayer(player), -10, 10)
+initializePossibleMoves(board, node, player)
+for c in node.children:
+	c.value = getValueByDFS(c.state, nextPlayer(player), -10, 10)
 
-	nextMove(node.children, player)
-
-if __name__ == '__main__':
-	main()
-
-
-
-
-
-
+nextMove(node.children, player)
