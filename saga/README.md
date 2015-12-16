@@ -10,10 +10,12 @@ The actions that we resued were:
   - MOVE
  
 The objects that we reused were:
+  ''''
   - MAN
   - WOMAN
   - RESTURANT
   - FOUNTAIN
+  ''''
   
 The rest we created our selfs.
 
