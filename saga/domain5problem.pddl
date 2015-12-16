@@ -59,7 +59,8 @@
         (HAS_GOOD_ADVICE GUNNI)
     )
     (:goal (and
-        (HAS_JOB DAVID)
+        (MARRIED MAN WAITRESS)
+        (MARRIED WAITRESS MAN)
     )
   )
 )

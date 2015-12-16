@@ -8,13 +8,11 @@
         (IS_AT ?C1 - Character ?L1 - Location)
         (IS_TOOL ?D1 - Device)
         (HAS ?C1 - Character ?A1 - Article)
-        (LOST ?A1 - Article)
         (BROKEN ?D1 - Device)
         (SAD ?C1 - Character)
         (HAPPY ?C1 - Character)
         (ANGRY ?C1 - Character)
         (EMBARASED ?C1 - Character)
-        (POPULAR ?C1 - Character)
         (HUNGRY ?C1 - Character)
         (POOR ?C1 - Character)
         (RICH ?C1 - Character)
@@ -33,7 +31,6 @@
         (DIRTY ?C1 - Character)
         (HAS_FREE_STUFF ?L1 - Location)
         (HAS_WATER ?L1 - Location)
-        (TEST ?C1 - Character)
         (NEW_HAIRCUT ?C1 - Character)
         (CUTS_HAIR ?L1 - Location)
         (HAS_GOOD_ADVICE ?C1 - Character)
@@ -53,95 +50,21 @@
             (IS_AT ?C1 ?L2)
         )
     )
-    (:action FIND
-        :parameters (
-            ?C1 - Character
-            ?A1 - Article
-            ?L1 - Location
-        )
-        :precondition (and
-            (LOST ?A1)
-            (IS_AT ?C1 ?L1)
-            (IS_AT ?A1 ?L1)
-        )
-        :effect (and
-            (HAS ?C1 ?A1)
-            (not (LOST ?A1))
-        )
-    )
-    (:action PUT_DOWN
-        :parameters (
-            ?C1 - Character
-            ?A1 - Article
-            ?L1 - Location
-        )
-        :precondition (and
-            (IS_AT ?C1 ?L1)
-            (HAS ?C1 ?A1)
-        )
-        :effect (and
-            (not (HAS ?C1 ?A1))
-            (IS_AT ?A1 ?L1)
-        )
-    )
-    (:action INSULT
-        :parameters (
-            ?C1 - Character
-            ?C2 - Character
-        )
-        :precondition (and
-            (not (= ?C1 ?C2))
-            (ANGRY ?C1)
-        )
-        :effect (and
-            (not (HAPPY ?C2))
-            (ANGRY ?C2)
-        )
-    )
-    (:action COMPLEMENT
-        :parameters (
-            ?C1 - Character
-            ?C2 - Character
-        )
-        :precondition (and
-            (not (= ?C1 ?C2))
-            (HAPPY ?C1)
-        )
-        :effect (and
-            (not (ANGRY ?C2))
-            (not (SAD ?C2))
-            (HAPPY ?C2)
-        )
-    )
-    (:action LIKE
-        :parameters (
-            ?C1 - Character
-            ?C2 - Character
-        )
-        :precondition (and
-            (not (= ?C1 ?C2))
-            (HAPPY ?C1)
-            (HAPPY ?C2)
-        )
-        :effect (and
-            (POPULAR ?C2)
-        )
-    )
     (:action STEAL
         :parameters (
             ?C1 - Character
             ?L1 - Location
-            ?D1 - Device
+            ?A1 - Article
         )
         :precondition (and
             (MARKETPLACE ?L1)
             (IS_AT ?C1 ?L1)
-            (IS_AT ?D1 ?L1)
-            (not (HAS ?C1 ?D1))
+            (IS_AT ?A1 ?L1)
+            (not (HAS ?C1 ?A1))
         )
         :effect (and
-            (not (IS_AT ?D1 ?L1))
-            (HAS ?C1 ?D1)
+            (not (IS_AT ?A1 ?L1))
+            (HAS ?C1 ?A1)
         )
     )
     (:action FIX
@@ -360,15 +283,19 @@
             (not (= ?C1 ?C2))
             (IS_AT ?C1 ?L1)
             (IS_AT ?C2 ?L1)
-            (HAS ?C2 ?A1)
-            (EDIBLE ?A1)
-            (DESPERATE ?C1)
-            (not (DIRTY ?C1))
         )
-        :effect (and
-            (not (DESPERATE ?C1))
-            (not (HAS ?C2 ?A1))
-            (HAS ?C1 ?A1)
+        :effect (when
+            (and
+                (HAS ?C2 ?A1)
+                (EDIBLE ?A1)
+                (DESPERATE ?C1)
+                (not (DIRTY ?C1))
+            )
+            (and
+                (not (DESPERATE ?C1))
+                (not (HAS ?C2 ?A1))
+                (HAS ?C1 ?A1)
+            )
         )
     )
     (:action EAT
@@ -378,11 +305,14 @@
         )
         :precondition (and
             (HUNGRY ?C1)
-            (EDIBLE ?A1)
             (HAS ?C1 ?A1)
         )
-        :effect (and
-            (not (HUNGRY ?C1))
+        :effect (when
+            (EDIBLE ?A1)
+            (and
+                (not (HUNGRY ?C1))
+                (not (HAS ?C1 ?A1))
+            )
         )
     )
     (:action GET_HAIRCUT
@@ -409,9 +339,9 @@
             (not (= ?C1 ?C2))
             (IS_AT ?C1 ?L1)
             (IS_AT ?C2 ?L1)
-            (HAS_GOOD_ADVICE ?C2)
         )
-        :effect (and
+        :effect (when
+            (HAS_GOOD_ADVICE ?C2)
             (HAS_GOOD_ADVICE ?C1)
         )
     )
@@ -422,13 +352,17 @@
         )
         :precondition (and
             (IS_AT ?C1 ?L1)
-            (NEW_HAIRCUT ?C1)
-            (HAS_GOOD_ADVICE ?C1)
             (IS_HIRING ?L1)
         )
-        :effect (and
-            (HAS_JOB ?C1)
-            (not (IS_HIRING ?L1))
+        :effect (when
+            (and
+                (NEW_HAIRCUT ?C1)
+                (HAS_GOOD_ADVICE ?C1)
+            )
+            (and
+                (HAS_JOB ?C1)
+                (not (IS_HIRING ?L1))
+            )
         )
     )
 )
