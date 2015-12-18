@@ -1,0 +1,6 @@
+(get_good_advice david gunni restaurant)
+(move david restaurant barbershop)
+(get_haircut david barbershop)
+(move david barbershop store)
+(job_interview david store)
+; cost = 5 (unit cost)

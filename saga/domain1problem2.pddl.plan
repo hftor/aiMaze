@@ -1,0 +1,8 @@
+(move man fountain dumpster)
+(move waitress restaurant fountain)
+(search_for_food man dumpster)
+(move man dumpster fountain)
+(clean man fountain)
+(beg_for_food man waitress fountain bread)
+(eat man bread)
+; cost = 7 (unit cost)

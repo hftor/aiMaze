@@ -1,0 +1,5 @@
+(move boy fountain restaurant)
+(light_candle girl candle)
+(start_fire girl candle restaurant)
+(save_from_fire boy girl restaurant)
+; cost = 4 (unit cost)

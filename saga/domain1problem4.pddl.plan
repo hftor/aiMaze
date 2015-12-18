@@ -1,0 +1,7 @@
+(move david restaurant hotdog_stand)
+(move gunni restaurant hotdog_stand)
+(order_food gunni hotdog_stand hotdog)
+(spill gunni hotdog)
+(laugh_at david gunni hotdog_stand)
+(punch david gunni hotdog_stand)
+; cost = 6 (unit cost)

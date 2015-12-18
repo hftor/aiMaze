@@ -1,0 +1,7 @@
+(move man fountain store)
+(steal man store hammer)
+(move man store restaurant)
+(fix man hammer door restaurant)
+(get_in_love waitress man restaurant)
+(get_married man waitress restaurant)
+; cost = 6 (unit cost)
